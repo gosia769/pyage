@@ -10,16 +10,14 @@ logger = logging.getLogger(__name__)
 def get_arguments():
     args = sys.argv
 
-    if len(args) < 8:
+    if len(args) < 7:
         raise ValueError("Not enough parameters!")
 
-    return Arguments(args[3] == 'True', float(args[4]), args[5], args[6],
-                     int(args[7]))
+    return Arguments(args[3] == 'True', float(args[4]), args[5], args[6])
 
 
 class Arguments:
-    def __init__(self, emas, probability, mutation, filename, agents_count):
-        self.agents_count = agents_count
+    def __init__(self, emas, probability, mutation, filename):
         self.filename = filename
         self.probability = probability
         self.mutation = TSPRandomMutation(self.probability)\
@@ -33,4 +31,3 @@ class Arguments:
         logger.info("Mutation: " + str(self.mutation))
         logger.info("Probability: " + str(self.probability))
         logger.info("Filename: " + str(self.filename))
-        logger.info("Agents: " + str(self.agents_count))

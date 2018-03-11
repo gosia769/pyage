@@ -19,8 +19,8 @@ logger = logging.getLogger(__name__)
 
 arguments = get_arguments()
 
-agents_count = arguments.agents_count
-stop_condition = lambda: StepLimitStopCondition(10000)
+agents_count = 10
+stop_condition = lambda: StepLimitStopCondition(1000)
 
 if arguments.emas:
     logger.debug("EMAS, %s agents", agents_count)
@@ -35,7 +35,7 @@ if arguments.emas:
     minimal_energy = lambda: 10
     reproduction_minimum = lambda: 100
     migration_minimum = lambda: 120
-    newborn_energy = lambda: 150
+    newborn_energy = lambda: 100
     transferred_energy = lambda: 40
 
     budget = 0

@@ -1,27 +1,30 @@
+# coding=utf-8
 import random
-from itertools import tee, izip
+from itertools import tee
 
 
 class TSPGenotype(object):
     def __init__(self, points):
         self.points = points
-        self.length = len(points)
-        random.shuffle(self.points)
+        self.number_of_points = len(points)
+        self.order = [x for x in range(0, self.number_of_points)]
+        random.shuffle(self.order)
         self.fitness = self.calculate_fitness()
 
     def __str__(self):
-        return "TSPGenotype{points=[" + str(
-            list(map(lambda x: x.id, self.points))) + "], fitness=" + str(
+        return "TSPGenotype{order=" + str(self.order) + ", fitness=" + str(
             self.fitness) + "}"
 
     def calculate_fitness(self):
         fitness = 0.0
-        for point1, point2 in pairwise(self.points):
-            fitness -= (point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2
+        for index1, index2 in pairwise(self.order):
+            delta_x = self.points[index1].x - self.points[index2].x
+            delta_y = self.points[index1].y - self.points[index2].y
+            fitness -= delta_x ** 2 + delta_y ** 2
         return fitness
 
-    def set_list(self, points):
-        self.points = list(points)
+    def set_order(self, list):
+        self.order = list[:]
         self.fitness = self.calculate_fitness()
 
 
@@ -29,4 +32,4 @@ def pairwise(iterable):
     "s -> (s0,s1), (s1,s2), (s2, s3), ..."
     a, b = tee(iterable)
     next(b, None)
-    return izip(a, b)
+    return zip(a, b)

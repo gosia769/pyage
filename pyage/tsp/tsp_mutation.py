@@ -1,3 +1,4 @@
+# coding=utf-8
 import logging
 import random
 
@@ -14,15 +15,16 @@ class TSPRandomMutation(AbstractMutation):
     def mutate(self, genotype):
         logger.debug("Mutating (rand swap) genotype: " + str(genotype))
 
-        l = list(genotype.points)
-        index1 = random.randrange(0, len(l))
-        index2 = random.randrange(0, len(l))
-        l[index1], l[index2] = l[index2], l[index1]
-        gen = TSPGenotype(l)
+        prev_order = list(genotype.order)
+        index1 = random.randrange(0, len(prev_order))
+        index2 = random.randrange(0, len(prev_order))
+        prev_order[index1], prev_order[index2] = prev_order[index2], prev_order[index1]
+        new_gen = TSPGenotype(genotype.points)
+        new_gen.set_order(prev_order)
 
-        logger.debug("Mutated (rand swap) genotype: " + str(gen))
+        logger.debug("Mutated (rand swap) genotype: " + str(new_gen))
 
-        return gen
+        return new_gen
 
 
 class TSPConsecutiveMutation(AbstractMutation):
@@ -32,12 +34,15 @@ class TSPConsecutiveMutation(AbstractMutation):
     def mutate(self, genotype):
         logger.debug("Mutating (next swap) genotype: " + str(genotype))
 
-        l = list(genotype.points)
-        index1 = random.randrange(0, len(l))
-        index2 = (index1 + 1) % len(l)
-        l[index1], l[index2] = l[index2], l[index1]
-        gen = TSPGenotype(l)
+        prev_order = list(genotype.order)
+        index1 = random.randrange(0, len(prev_order))
+        index2 = (index1 + 1) % len(prev_order)
 
-        logger.debug("Mutated (next swap) genotype: " + str(gen))
+        prev_order[index1], prev_order[index2] = prev_order[index2], prev_order[index1]
 
-        return gen
+        new_gen = TSPGenotype(genotype.points)
+        new_gen.set_order(prev_order)
+
+        logger.debug("Mutated (next swap) genotype: " + str(new_gen))
+
+        return new_gen

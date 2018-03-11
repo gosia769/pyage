@@ -1,3 +1,4 @@
+# coding=utf-8
 import logging
 import random
 
@@ -14,22 +15,23 @@ class TSPCrossover(AbstractCrossover):
     def cross(self, p1, p2):
         logger.debug("Crossing: " + str(p1) + " and " + str(p2))
 
-        parent1 = list(p1.points)
-        parent2 = list(p2.points)
+        parent1_order = list(p1.order)
+        parent2_order = list(p2.order)
 
-        index1 = random.randrange(0, len(parent1))
-        index2 = random.randrange(0, len(parent1))
+        index1 = random.randrange(0, len(parent1_order))
+        index2 = random.randrange(0, len(parent1_order))
         if index1 > index2:
             index1, index2 = index2, index1
 
-        parent1fragment = parent1[index1:index2]
-        parent2fragment = parent2
+        parent1_order_part = parent1_order[index1:index2]
 
-        for city in parent1fragment:
-            parent2fragment.remove(city)
-        genlist = parent1fragment + parent2fragment
+        for city in parent1_order_part:
+            parent2_order.remove(city)
 
-        genotype = TSPGenotype(genlist)
+        child_order = parent1_order_part + parent2_order
+
+        genotype = TSPGenotype(p1.points)
+        genotype.set_order(child_order)
 
         logger.debug("Crossed genotype: " + str(genotype))
 
