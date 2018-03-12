@@ -3,8 +3,8 @@ import os
 
 # Parameters
 emas = [True, False]
-mutation_prob = [0.01, 0.1, 0.2]
-mutation_func = ["random", "consecutive"]
+mutation_prob = [0.01, 0.05, 0.1]
+mutation_func = ["random", "consecutive", "inverse"]
 filename = "points.csv"
 
 proc_base = "python -m pyage.core.bootstrap pyage.tsp.tsp_conf INFO "

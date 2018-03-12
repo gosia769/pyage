@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 arguments = get_arguments()
 
 agents_count = 10
-stop_condition = lambda: StepLimitStopCondition(2000)
+stop_condition = lambda: StepLimitStopCondition(4000)
 
 if arguments.emas:
     logger.debug("EMAS, %s agents", agents_count)
@@ -51,7 +51,7 @@ if arguments.emas:
         return abs(x) * 10
 
 else:
-    logger.debug("Not EMAS, %s agents", agents_count)
+    logger.debug("Evolutionary, %s agents", agents_count)
     agents = generate_agents("agent", agents_count, Agent)
 
     size = 130
@@ -69,10 +69,10 @@ migration = ParentMigration
 locator = GridLocator
 
 stats = lambda: StepStatistics('out/fitness_{}_pyage.txt'.format(__name__),
-                               history_file_name='out/all_fitness_{}_{}_{}_{}.txt'.format(
+                               history_file_name='out/{}_{}_{}_{}.csv'.format(
                                    arguments.emas_str,
                                    arguments.mutation_probability,
-                                   arguments.mutation_type,
+                                   arguments.mutation_str,
                                    datetime.datetime.now()))
 
 naming_service = lambda: NamingService(starting_number=2)

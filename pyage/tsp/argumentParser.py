@@ -2,7 +2,8 @@ import sys
 
 import logging
 
-from pyage.tsp.tsp_mutation import TSPRandomMutation, TSPConsecutiveMutation
+from pyage.tsp.tsp_mutation import TSPRandomMutation, TSPConsecutiveMutation, \
+    TSPInverseMutation
 
 logger = logging.getLogger(__name__)
 
@@ -20,9 +21,13 @@ class Arguments:
     def __init__(self, emas, mutation_probability, mutation_fun, filename):
         self.filename = filename
         self.mutation_probability = mutation_probability
-        self.mutation_type = TSPRandomMutation(self.mutation_probability)\
-            if mutation_fun == "random"\
-            else TSPConsecutiveMutation(self.mutation_probability)
+        if mutation_fun == "random":
+            self.mutation_type = TSPRandomMutation(self.mutation_probability)
+        elif mutation_fun == 'inverse':
+            self.mutation_type = TSPInverseMutation(self.mutation_probability)
+        else:
+            self.mutation_type = TSPConsecutiveMutation(
+                self.mutation_probability)
         self.emas = emas
         self.logParameters()
 

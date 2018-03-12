@@ -41,6 +41,27 @@ class TSPConsecutiveMutation(AbstractMutation):
         return new_gen
 
 
+class TSPInverseMutation(AbstractMutation):
+    def __init__(self, probability):
+        super(TSPInverseMutation, self).__init__(TSPGenotype, probability)
+
+    def mutate(self, genotype):
+        logger.debug("Inverse mutation of {0}".format(str(genotype)))
+
+        new_gen = TSPGenotype(genotype.points)
+        new_gen.set_order(inverse(genotype.order))
+
+        logger.debug("Mutated {0}".format(str(new_gen)))
+        return new_gen
+
+
 def swap(order, index1, index2):
     order[index1], order[index2] = order[index2], order[index1]
     return order
+
+
+def inverse(s):
+    x, y = random.sample(range(len(s)), 2)
+    if x > y:
+        x, y = y, x
+    return s[:x+1] + s[y-1:x:-1] + s[y:]

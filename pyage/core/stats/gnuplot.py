@@ -10,7 +10,7 @@ class StepStatistics(Statistics):
         self.history = []
         self.fitness_output = open(output_file_name, 'a')
         self.history_output = open(history_file_name, 'a')
-        self.history_output.write('best_fitness')
+        self.history_output.write('best_fitness\n')
 
 
     def __del__(self):

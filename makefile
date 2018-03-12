@@ -15,3 +15,4 @@ run_tests: $(POINTS)
 
 clean:
 	rm -f $(POINTS) *.log
+	rm -Rf out
