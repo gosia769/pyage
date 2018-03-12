@@ -13,7 +13,4 @@ class TSPEvaluator(Operator):
 
     def process(self, population):
         for genotype in population:
-            genotype.fitness = self.evaluate(genotype)
-
-    def evaluate(self, genotype):
-        return genotype.calculate_fitness()
+            genotype.fitness = genotype.calculate_fitness()

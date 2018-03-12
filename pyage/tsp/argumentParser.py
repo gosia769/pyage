@@ -17,17 +17,21 @@ def get_arguments():
 
 
 class Arguments:
-    def __init__(self, emas, probability, mutation, filename):
+    def __init__(self, emas, mutation_probability, mutation_fun, filename):
         self.filename = filename
-        self.probability = probability
-        self.mutation = TSPRandomMutation(self.probability)\
-            if mutation == "random"\
-            else TSPConsecutiveMutation(self.probability)
+        self.mutation_probability = mutation_probability
+        self.mutation_type = TSPRandomMutation(self.mutation_probability)\
+            if mutation_fun == "random"\
+            else TSPConsecutiveMutation(self.mutation_probability)
         self.emas = emas
         self.logParameters()
 
+        self.emas_str = "EMAS" if emas else "EVO"
+        self.mutation_str = mutation_fun
+        self.probability_str = str(mutation_probability)
+
     def logParameters(self):
         logger.info("Emas: " + str(self.emas))
-        logger.info("Mutation: " + str(self.mutation))
-        logger.info("Probability: " + str(self.probability))
+        logger.info("Mutation: " + str(self.mutation_type))
+        logger.info("Probability: " + str(self.mutation_probability))
         logger.info("Filename: " + str(self.filename))

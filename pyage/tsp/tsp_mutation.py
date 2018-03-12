@@ -13,17 +13,14 @@ class TSPRandomMutation(AbstractMutation):
         super(TSPRandomMutation, self).__init__(TSPGenotype, probability)
 
     def mutate(self, genotype):
-        logger.debug("Mutating (rand swap) genotype: " + str(genotype))
+        logger.debug("Random mutation of {0}".format(str(genotype)))
 
-        prev_order = list(genotype.order)
-        index1 = random.randrange(0, len(prev_order))
-        index2 = random.randrange(0, len(prev_order))
-        prev_order[index1], prev_order[index2] = prev_order[index2], prev_order[index1]
         new_gen = TSPGenotype(genotype.points)
-        new_gen.set_order(prev_order)
+        n = len(genotype.order)
+        new_gen.set_order(swap(list(genotype.order), random.randrange(n),
+                               random.randrange(n)))
 
-        logger.debug("Mutated (rand swap) genotype: " + str(new_gen))
-
+        logger.debug("Mutated {0}".format(str(new_gen)))
         return new_gen
 
 
@@ -32,17 +29,18 @@ class TSPConsecutiveMutation(AbstractMutation):
         super(TSPConsecutiveMutation, self).__init__(TSPGenotype, probability)
 
     def mutate(self, genotype):
-        logger.debug("Mutating (next swap) genotype: " + str(genotype))
-
-        prev_order = list(genotype.order)
-        index1 = random.randrange(0, len(prev_order))
-        index2 = (index1 + 1) % len(prev_order)
-
-        prev_order[index1], prev_order[index2] = prev_order[index2], prev_order[index1]
+        logger.debug("Consecutive mutation of {0}".format(str(genotype)))
 
         new_gen = TSPGenotype(genotype.points)
-        new_gen.set_order(prev_order)
+        n = len(genotype.order)
+        random_choice = random.randrange(n)
+        new_gen.set_order(
+            swap(list(genotype.order), random_choice, (random_choice + 1) % n))
 
-        logger.debug("Mutated (next swap) genotype: " + str(new_gen))
-
+        logger.debug("Mutated {0}".format(str(new_gen)))
         return new_gen
+
+
+def swap(order, index1, index2):
+    order[index1], order[index2] = order[index2], order[index1]
+    return order

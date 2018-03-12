@@ -7,7 +7,7 @@ class TSPGenotype(object):
     def __init__(self, points):
         self.points = points
         self.number_of_points = len(points)
-        self.order = [x for x in range(0, self.number_of_points)]
+        self.order = [x for x in range(self.number_of_points)]
         random.shuffle(self.order)
         self.fitness = self.calculate_fitness()
 
@@ -18,9 +18,9 @@ class TSPGenotype(object):
     def calculate_fitness(self):
         fitness = 0.0
         for index1, index2 in pairwise(self.order):
-            delta_x = self.points[index1].x - self.points[index2].x
-            delta_y = self.points[index1].y - self.points[index2].y
-            fitness -= delta_x ** 2 + delta_y ** 2
+            x_dist = self.points[index1].x - self.points[index2].x
+            y_dist = self.points[index1].y - self.points[index2].y
+            fitness -= x_dist ** 2 + y_dist ** 2
         return fitness
 
     def set_order(self, list):
