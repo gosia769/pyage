@@ -11,8 +11,8 @@ from pyage.core.migration import ParentMigration
 from pyage.core.stats.gnuplot import StepStatistics
 from pyage.core.stop_condition import StepLimitStopCondition
 from pyage.elect.el_init import root_agents_factory
-from pyage.elect.el_selection import TournamentSelection
 from pyage.elect.naming_service import NamingService
+from pyage.solutions.evolution.selection import TournamentSelection
 from pyage.tsp.argumentParser import get_arguments
 from pyage.tsp.tsp_crossover import TSPCrossover
 from pyage.tsp.tsp_eval import TSPEvaluator

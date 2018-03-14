@@ -15,10 +15,10 @@ class TSPRandomMutation(AbstractMutation):
     def mutate(self, genotype):
         logger.debug("Random mutation of {0}".format(str(genotype)))
 
-        new_gen = TSPGenotype(genotype.points)
         n = len(genotype.order)
-        new_gen.set_order(swap(list(genotype.order), random.randrange(n),
-                               random.randrange(n)))
+        new_gen = TSPGenotype(genotype.points, order=swap(list(genotype.order),
+                                                          random.randrange(n),
+                                                          random.randrange(n)))
 
         logger.debug("Mutated {0}".format(str(new_gen)))
         return new_gen
@@ -31,11 +31,11 @@ class TSPConsecutiveMutation(AbstractMutation):
     def mutate(self, genotype):
         logger.debug("Consecutive mutation of {0}".format(str(genotype)))
 
-        new_gen = TSPGenotype(genotype.points)
         n = len(genotype.order)
         random_choice = random.randrange(n)
-        new_gen.set_order(
-            swap(list(genotype.order), random_choice, (random_choice + 1) % n))
+        new_gen = TSPGenotype(genotype.points,
+                              order=swap(list(genotype.order), random_choice,
+                                         (random_choice + 1) % n))
 
         logger.debug("Mutated {0}".format(str(new_gen)))
         return new_gen
@@ -48,8 +48,7 @@ class TSPInverseMutation(AbstractMutation):
     def mutate(self, genotype):
         logger.debug("Inverse mutation of {0}".format(str(genotype)))
 
-        new_gen = TSPGenotype(genotype.points)
-        new_gen.set_order(inverse(genotype.order))
+        new_gen = TSPGenotype(genotype.points, order=inverse(genotype.order))
 
         logger.debug("Mutated {0}".format(str(new_gen)))
         return new_gen
@@ -64,4 +63,4 @@ def inverse(s):
     x, y = random.sample(range(len(s)), 2)
     if x > y:
         x, y = y, x
-    return s[:x+1] + s[y-1:x:-1] + s[y:]
+    return s[:x + 1] + s[y - 1:x:-1] + s[y:]

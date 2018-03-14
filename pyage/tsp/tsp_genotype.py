@@ -4,12 +4,16 @@ from itertools import tee
 
 
 class TSPGenotype(object):
-    def __init__(self, points):
+    def __init__(self, points, order=None):
         self.points = points
         self.number_of_points = len(points)
-        self.order = [x for x in range(self.number_of_points)]
-        random.shuffle(self.order)
+        if order is None:
+            self.order = [x for x in range(self.number_of_points)]
+            random.shuffle(self.order)
+        else:
+            self.order = order
         self.fitness = self.calculate_fitness()
+
 
     def __str__(self):
         return "TSPGenotype{order=" + str(self.order) + ", fitness=" + str(

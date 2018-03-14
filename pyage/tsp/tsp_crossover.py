@@ -29,8 +29,7 @@ class TSPCrossover(AbstractCrossover):
         for city in parent1_order_part:
             p2_order.remove(city)
 
-        genotype = TSPGenotype(p1.points)
-        genotype.set_order(parent1_order_part + p2_order)
+        genotype = TSPGenotype(p1.points, order=parent1_order_part + p2_order)
 
         logger.debug("Crossed: {0}".format(str(genotype)))
         return genotype
